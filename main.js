@@ -1,7 +1,7 @@
 'use strict'
 /** @type {HTMLCanvasElement} */
-    const canvas = document.getElementById("drawplace");
-    const ctx = canvas.getContext("2d");
+const canvas = document.getElementById("drawplace");
+const ctx = canvas.getContext("2d");
 
 class Screen {
     constructor(args) {
@@ -47,17 +47,18 @@ class Player {
         this.x = Math.floor((12 - this.hold.block[0].length) / 2) - 0;
         this.y = 1;
         if (this.touch(this.x, this.y)) {
-            $('#drawplace').hide();
-            $('#table').hide();
-            $("#over").show();
-            $("#back").hide();
-            
+            $("div").hide();
+            $(".gameover").show();
+            $(".score").show();
+            $("#mianx").show();
+            $("#option").show();
+            document.getElementById("final").innerHTML = this.score;
             init();
         }
         this.draw();
     }
     move(x, y) {
-        if(pause===1)return;
+        if (pause === 1) return;
         if (x === 1) {
             if (this.touch(this.x + 1, this.y)) {
                 return;
@@ -102,13 +103,13 @@ class Player {
         return false;
     }
     down() {
-        if(pause===1)return;
+        if (pause === 1) return;
         if (this.touch(this.x, this.y + 1)) {
-            if(this.hold.kind===7){
-                for(let i=this.y-2;i<=this.y+4;i++){
-                    for(let j=this.x-2;j<=this.x+4;j++){
-                        if(i>=screen.height || j>=screen.width || map[i][j]===8 || map[i][j]===10)continue;
-                        map[i][j]=0;
+            if (this.hold.kind === 7) {
+                for (let i = this.y - 2; i <= this.y + 4; i++) {
+                    for (let j = this.x - 2; j <= this.x + 4; j++) {
+                        if (i >= screen.height || j >= screen.width || map[i][j] === 8 || map[i][j] === 10) continue;
+                        map[i][j] = 0;
                     }
                 }
                 this.catch();
@@ -130,7 +131,7 @@ class Player {
                     }
                     i++;
                     this.score += 100;
-                    
+
                 }
             }
             used = 0;
@@ -170,24 +171,24 @@ class Player {
         ctx.shadowColor = `rgb(50,80,200)`;
         ctx.shadowBlur = 10;
         ctx.font = "40px arial";
-        if(player.difficulty==0){
+        if (player.difficulty == 0) {
             ctx.fillText("Level-0", 15 * screen.span, 1 * screen.span);
         }
-        if(player.difficulty==1){
+        if (player.difficulty == 1) {
             ctx.fillText("Level-1", 15 * screen.span, 1 * screen.span);
         }
-        if(player.difficulty==2){
+        if (player.difficulty == 2) {
             ctx.fillText("Level-2", 15 * screen.span, 1 * screen.span);
         }
-        if(player.difficulty==3){
+        if (player.difficulty == 3) {
             ctx.fillText("Level-3", 15 * screen.span, 1 * screen.span);
         }
         ctx.fillText("next", 15 * screen.span, 4 * screen.span);
         ctx.fillText("keep", 15 * screen.span, 17 * screen.span);
         ctx.fillText("score", 15 * screen.span, 13 * screen.span);
         ctx.fillText(this.score, 15 * screen.span, 14 * screen.span);
-        ctx.fillText("bombs",15 * screen.span, 9 * screen.span)
-        ctx.fillText(bombs,15 * screen.span, 10 * screen.span)
+        ctx.fillText("bombs", 15 * screen.span, 9 * screen.span)
+        ctx.fillText(bombs, 15 * screen.span, 10 * screen.span)
 
         ctx.restore();
     }
@@ -208,7 +209,7 @@ let blocktypes = [
     [[5, 5, 5], [0, 0, 5]],
     [[6, 6, 0], [0, 6, 6]],
     [[0, 7, 7], [7, 7, 0]],
-    [[0,8,0],[8,8,8],[8,8,8],[8,8,8]],
+    [[0, 8, 0], [8, 8, 8], [8, 8, 8], [8, 8, 8]],
 ]
 
 let colortypes = [
@@ -221,7 +222,7 @@ let colortypes = [
     [0, 255, 255],
     [255, 255, 0],
     [0, 0, 0],
-    [0,0,0],
+    [0, 0, 0],
     [180, 180, 180],
 ]
 
@@ -229,14 +230,14 @@ let map = [];
 
 let used = 0;
 
-let pause=0 ;
+let pause = 0;
 
-let bombs=1;
+let bombs = 1;
 
 addEventListener("keydown", e => {
     let movement = e.key;
     // console.log(movement);
-    
+
     if (movement === 'ArrowRight') {
         player.move(1, 0);
     }
@@ -251,7 +252,7 @@ addEventListener("keydown", e => {
     }
     if (movement === ' ') {
         while (!player.down()) {
-            if(pause==1)break;
+            if (pause == 1) break;
         }
         player.draw();
     }
@@ -276,21 +277,21 @@ addEventListener("keydown", e => {
         player.hold.block = blocktypes[player.hold.kind];
         player.draw();
     }
-    if(movement==='p' || movement ==='P'){
-        if(pause===0){
-            pause=1;
+    if (movement === 'p' || movement === 'P') {
+        if (pause === 0) {
+            pause = 1;
             alert("paused");
         }
         else {
-            pause=0;
+            pause = 0;
             alert("continue");
         }
     }
-    if(movement==='b' || movement==='B'){
-        if(bombs===0||pause===1)return;
+    if (movement === 'b' || movement === 'B') {
+        if (bombs === 0 || pause === 1) return;
         bombs--;
-        player.hold.kind=7;
-        player.hold.block=blocktypes[player.hold.kind];
+        player.hold.kind = 7;
+        player.hold.block = blocktypes[player.hold.kind];
         player.x = Math.floor((12 - player.hold.block[0].length) / 2) - 0;
         player.y = 1;
         player.draw();
@@ -314,10 +315,10 @@ function init() {
         }
     }
     player.catch();
-    player.draw();    
-    if(player.difficulty===0)time=2000;
-    else if(player.difficulty===1)time=1500;
-    else time=500;
+    player.draw();
+    if (player.difficulty === 0) time = 2000;
+    else if (player.difficulty === 1) time = 1500;
+    else time = 500;
 }
 // init();
 

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="jquery-3.5.1.min.js"></script>
+  <link rel="stylesheet" href="jquery-ui.min.css">
+  <script src="jquery-ui.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <title>Document</title>
+</head>
+<style>
+  body {
+    background-color: rgb(60, 135, 255);
+  }
+
+  table,
+  th,
+  td {
+    border: 1px solid rgb(0, 0, 0);
+  }
+
+  td {
+    color: rgb(255, 255, 255);
+  }
+</style>
+
+<body align="center">
+  <div style="z-index: 2;position: absolute;" id="page">
+    <img src="home.png" style="height: 50px;width:50px;">
+  </div>
+  <div style="z-index: 1;position: relative;">
+    <img src="a.png">
+  </div>
+  <div>
+    <table border="1" style="margin: auto;">
+      <tr>
+        <td style="font-size: 30px;">劉彥甫</td>
+        <td style="font-size: 20px;">Javescipt主程式</td>
+      </tr>
+      <tr>
+        <td style="font-size: 30px;">楊敦傑</td>
+        <td style="font-size: 20px;">前端設計</td>
+      </tr>
+      <tr>
+        <td style="font-size: 30px;">金聖家</td>
+        <td style="font-size: 20px;">簡報</td>
+      </tr>
+    </table>
+  </div><br><br>
+  <div style="background-color: black;width: 100%;height: 2px;"></div>
+  <br><br>
+  <div style="background-color: rgb(59, 151, 255);">
+    <img src="intro.png" alt="">
+  </div>
+  <div style="background-color: rgb(1, 86, 184);">
+    <table border="1" style="margin: auto;">
+      <tr>
+        <td style="font-size:30px;background-color: rgb(0, 55, 119);">按鍵</td>
+        <td style="font-size:30px;background-color: rgb(0, 55, 119);">功能</td>
+      </tr>
+      <tr>
+        <td>按"C"</td>
+        <td>保存方塊</td>
+      </tr>
+      <tr>
+        <td>按"P"</td>
+        <td>保存方塊</td>
+      </tr>
+      <tr>d
+        <td>按"C"</td>
+        <td>暫停</td>
+      </tr>
+      <tr>
+        <td>按"上"</td>
+        <td>旋轉</td>
+      </tr>
+      <tr>
+        <td>按"下"</td>
+        <td>加速掉落</td>
+      </tr>
+      <tr>
+        <td>按"左"</td>
+        <td>往左移動</td>
+      </tr>
+      <tr>
+        <td>按"右"</td>
+        <td>往右移動</td>
+      </tr>
+      <tr>
+        <td>按"空白"</td>
+        <td>放下</td>
+      </tr>
+      <tr>
+        <td>按"B"</td>
+        <td>使用炸彈</td>
+      </tr>
+      <tr>
+        <td colspan="2">前3000分中，每得到1000分方塊下落速度會加快
+          前五分鐘，每一分鐘會增加一層障礙</td>
+      </tr>
+
+    </table>
+  </div>
+</body>
+<script>
+  swal({
+    title: '版本',
+    text: 'V.2.03',
+  });
+  $("#page").click(function () {
+    window.location.href = "index.html";
+  });
+</script>
+
+</html>
