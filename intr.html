@@ -29,7 +29,8 @@
 
 <body align="center">
   <div style="z-index: 2;position: absolute;" id="page">
-    <img src="home.png" style="height: 50px;width:50px;">
+    <img src="home.png" id="top" style="height: 50px;width:50px;"><br>
+    <img src="sta.png" id="down" style="height: 50px;width:50px;">
   </div>
   <div style="z-index: 1;position: relative;">
     <img src="a.png">
@@ -67,10 +68,6 @@
       </tr>
       <tr>
         <td>按"P"</td>
-        <td>保存方塊</td>
-      </tr>
-      <tr>
-        <td>按"C"</td>
         <td>暫停</td>
       </tr>
       <tr>
@@ -110,9 +107,13 @@
     title: '版本',
     text: 'V.2.03',
   });
-  $("#page").click(function () {
+  $("#top").click(function () {
     window.location.href = "index.html";
   });
+  $("#down").click(function () {
+    window.location.href = "video.html";
+  });
+
 </script>
 
 </html>

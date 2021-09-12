@@ -11,7 +11,7 @@ class Screen {
             span: 40,
             gui: 10,
         }
-        Object.assign(def, args);
+        //Object.assign(def, args);
         Object.assign(this, def);
     }
     draw() {
@@ -34,7 +34,7 @@ class Player {
             score: 0,
             difficulty: 0,
         }
-        Object.assign(def, args);
+        //Object.assign(def, args);
         Object.assign(this, def);
         // this.catch();
     }
@@ -54,6 +54,21 @@ class Player {
             $("#option").show();
             document.getElementById("final").innerHTML = this.score;
             init();
+            pause = 1;
+
+            return;
+        }
+        if (this.score === 1000 && speed === 0) {
+            speed++;
+            time /= 2;
+        }
+        if (this.score === 2000 && speed === 1) {
+            speed++;
+            time /= 2;
+        }
+        if (this.score === 3000 && speed === 2) {
+            speed++;
+            time /= 2;
         }
         this.draw();
     }
@@ -131,7 +146,11 @@ class Player {
                     }
                     i++;
                     this.score += 100;
-
+                    /*if(this.score === 5000 && win === false){
+                        win = true;
+                        pause = 1;
+                        alert("You win !\nPress p if you want to continue playing");
+                    }*/
                 }
             }
             used = 0;
@@ -187,8 +206,8 @@ class Player {
         ctx.fillText("keep", 15 * screen.span, 17 * screen.span);
         ctx.fillText("score", 15 * screen.span, 13 * screen.span);
         ctx.fillText(this.score, 15 * screen.span, 14 * screen.span);
-        ctx.fillText("bombs", 15 * screen.span, 9 * screen.span)
-        ctx.fillText(bombs, 15 * screen.span, 10 * screen.span)
+        ctx.fillText("bombs", 15 * screen.span, 9 * screen.span);
+        ctx.fillText(bombs, 15 * screen.span, 10 * screen.span);
 
         ctx.restore();
     }
@@ -216,13 +235,13 @@ let colortypes = [
     [255, 255, 255],
     [255, 0, 0],
     [0, 255, 0],
-    [0, 0, 255],
+    [247, 0, 255],
     [0, 100, 200],
     [200, 100, 0],
     [0, 255, 255],
     [255, 255, 0],
     [0, 0, 0],
-    [0, 0, 0],
+    [220, 220, 220],
     [180, 180, 180],
 ]
 
@@ -234,6 +253,10 @@ let pause = 0;
 
 let bombs = 1;
 
+let time;
+let speed = 0;
+let difficulty = 0;
+let win = false;
 addEventListener("keydown", e => {
     let movement = e.key;
     // console.log(movement);
@@ -299,6 +322,11 @@ addEventListener("keydown", e => {
 })
 
 function init() {
+    pause = 0;
+    player.score = 0;
+    player.keep.kind = -1;
+    player.keep.block = [[0, 0, 0], [0, 0, 0]];
+    used = 0;
     for (let i = 0; i < screen.height; i++) {
         map[i] = [];
         for (let j = 0; j < screen.width; j++) {
@@ -319,8 +347,10 @@ function init() {
     if (player.difficulty === 0) time = 2000;
     else if (player.difficulty === 1) time = 1500;
     else time = 500;
+    speed = 0;
+    setTimeout(harder, 60 * 1000);
 }
-// init();
+//init();
 
 function rand(max, min) {
     return Math.floor(Math.random() * (max - min + 1));
@@ -331,6 +361,8 @@ function decoration(x, y, colors) {
 
     ctx.translate(x * screen.span, y * screen.span);
     ctx.fillStyle = `rgb(${colors[0]},${colors[1]},${colors[2]})`;
+    /*ctx.shadowColor = `rgb(${colors[0]}, ${colors[1]+10}, ${colors[2]})`;
+    ctx.shadowBlur = 10 ;*/
     ctx.fillRect(0, 0, screen.span, screen.span);
 
     if (map[y][x] === 9 || map[y][x] === 10) {
@@ -345,7 +377,8 @@ function decoration(x, y, colors) {
         ctx.translate((degree % 270 === 0) ? 0 : screen.span, (degree < 180) ? 0 : screen.span);
         ctx.rotate(degree * Math.PI / 180);
         ctx.beginPath();
-        let w = 5;
+        let w = 2;
+        if (map[y][x] === 0 || map[y][x] === 8) w = 0;
         ctx.moveTo(0, 0);
         ctx.lineTo(w, w);
         ctx.lineTo(screen.span - w, w);
@@ -360,12 +393,26 @@ function decoration(x, y, colors) {
 function sa(i) {
     return JSON.parse(JSON.stringify(i));
 }
-let time;
 function ddown() {
     if (map.length !== 0) player.down();
     setTimeout(ddown, time);
 }
 setTimeout(ddown, time);
+function harder() {
+    if (difficulty > 5) return;
+    difficulty++;
+    for (let i = screen.height - 2; i > screen.height - 2 - (player.difficulty + difficulty - 1); i--) {
+        for (let j = 1; j < screen.width - 1; j++) {
+            map[i][j] = 10;
+        }
+    }
+    setTimeout(harder, 60 * 1000);
+}
+function test() {
+    ctx.font = "300px Arial"
+    ctx.fillText("TEST", 110, 220);
+}
+//setTimeout(test, 5*1000);
 // setInterval(()=>{
 //     player.down();
 // },2000)
