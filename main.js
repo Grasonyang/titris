@@ -54,9 +54,6 @@ class Player {
             $("#option").show();
             document.getElementById("final").innerHTML = this.score;
             init();
-            pause = 1;
-
-            return;
         }
         if (this.score === 1000 && speed === 0) {
             speed++;
@@ -121,9 +118,9 @@ class Player {
         if (pause === 1) return;
         if (this.touch(this.x, this.y + 1)) {
             if (this.hold.kind === 7) {
-                for (let i = this.y - 2; i <= this.y + 4; i++) {
+                for (let i = this.y - 2; i <= this.y + 6; i++) {
                     for (let j = this.x - 2; j <= this.x + 4; j++) {
-                        if (i >= screen.height || j >= screen.width || map[i][j] === 8 || map[i][j] === 10) continue;
+                        if (i < 0 || j < 0 || i >= screen.height || j >= screen.width || map[i][j] === 8 || map[i][j] === 10) continue;
                         map[i][j] = 0;
                     }
                 }
@@ -317,11 +314,21 @@ addEventListener("keydown", e => {
         player.hold.block = blocktypes[player.hold.kind];
         player.x = Math.floor((12 - player.hold.block[0].length) / 2) - 0;
         player.y = 1;
-        player.draw();
+        if (player.touch(player.x, player.y)) {
+            for (let i = player.y - 2; i <= player.y + 6; i++) {
+                for (let j = player.x - 2; j <= player.x + 4; j++) {
+                    if (i < 0 || j < 0 || i >= screen.height || j >= screen.width || map[i][j] === 8 || map[i][j] === 10) continue;
+                    map[i][j] = 0;
+                }
+            }
+            player.catch();
+        }
+        else player.draw();
     }
 })
 
 function init() {
+    bombs = 1;
     pause = 0;
     player.score = 0;
     player.keep.kind = -1;
@@ -408,11 +415,3 @@ function harder() {
     }
     setTimeout(harder, 60 * 1000);
 }
-function test() {
-    ctx.font = "300px Arial"
-    ctx.fillText("TEST", 110, 220);
-}
-//setTimeout(test, 5*1000);
-// setInterval(()=>{
-//     player.down();
-// },2000)
